@@ -5,7 +5,8 @@
 
 
 int 
-snowflake(){
+snowflake()
+{
     // All of these variables have arbitrary values, temporary example
     long int uniqueId = 1387263000; // miliseconds
     long int tableId = 10000; 
@@ -24,8 +25,7 @@ snowflake(){
 
 
 int 
-main(){
+main()
+{
     snowflake();
-
-
 }
