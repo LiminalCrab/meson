@@ -28,7 +28,7 @@ db_connections()
 {
     PGconn *conn;
 
-    conn = PQconnectdb("dbname=snowbank host=24.181.5.175 user=postgres password=postgres");
+    conn = PQconnectdb("dbname=ahh host=ahh user=ahh password=ahh");
 
     switch(PQstatus(conn))
     {
