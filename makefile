@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-Wall -g
 
-meson: meson.o
-	$(CC) -o meson meson.o
+sid64: sig64.o
+	$(CC) -o sidg64 sidg64.o
 
 clean:
-	rm -f meson
+	rm -f sidg64

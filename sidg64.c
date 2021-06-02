@@ -1,6 +1,11 @@
 #include <stdio.h>
 
-int main(){
+
+
+
+
+int 
+snowflake(){
     // All of these variables have arbitrary values, temporary example
     long int uniqueId = 1387263000; // miliseconds
     long int tableId = 10000; 
@@ -15,5 +20,12 @@ int main(){
 
     printf("UNIQUE ID: %ld \n", x);
     printf("BYTES: %ld", sizeof(x));
+}
+
+
+int 
+main(){
+    snowflake();
+
 
 }
