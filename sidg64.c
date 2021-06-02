@@ -1,7 +1,5 @@
 #include <stdio.h>
-
-
-
+#include <libpq-fe.h>
 
 
 int 
@@ -21,11 +19,37 @@ snowflake()
 
     printf("UNIQUE ID: %ld \n", x);
     printf("BYTES: %ld", sizeof(x));
+
+    return 0;
 }
 
+int 
+db_connections()
+{
+    PGconn *conn;
+
+    conn = PQconnectdb("dbname=snowbank host=24.181.5.175 user=postgres password=postgres");
+
+    switch(PQstatus(conn))
+    {
+        case CONNECTION_STARTED:
+        printf("Connecting...");
+        break;
+
+        case CONNECTION_MADE:
+        printf("Connected.");
+        break;
+
+        case CONNECTION_BAD:
+        printf("Connection failed.");
+        break;
+    }
+
+    return 0;
+}
 
 int 
 main()
 {
-    snowflake();
+    db_connections();
 }
