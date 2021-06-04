@@ -7,7 +7,7 @@ db_connections()
 {
     PGconn *conn;
 
-    conn = PQconnectdb("dbname=ahh host=ahh user=ahh password=ahh");
+    conn = PQconnectdb("");
 
     switch(PQstatus(conn))
     {
@@ -20,23 +20,23 @@ db_connections()
         break;
 
         case CONNECTION_NEEDED:
-        printf("Connection to dabase needs ... ");
+        printf("Internal state: connect() needed.");
         break;
 
         case CONNECTION_CHECK_WRITABLE:
-        printf("Check if connection is writable.");
+        printf("Checking if session is read-write.");
         break;
 
         case CONNECTION_CONSUME:
-        printf("Connection consuming...");
+        printf("Consuming any extra messages.");
         break;
 
         case CONNECTION_GSS_STARTUP:
-        printf("Connection GSS startup...");
+        printf("Negotiating GSSAPI.");
         break;
 
         case CONNECTION_CHECK_TARGET:
-        printf("CHECK TARGET");
+        printf("Checking target server properties.");
         break;
 
         case CONNECTION_MADE:
@@ -61,6 +61,7 @@ db_connections()
 
         case CONNECTION_SETENV:
         printf("Negotiating environment-driven parameter settings.");
+        break;
     }
 
     return 0;
