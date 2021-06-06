@@ -5,8 +5,8 @@ INCLUDES=-I/usr/local/include/ -I./include/ `pkg-config --cflags libpq`
 LIBS=-lrt -lm `pkg-config --libs libpq`
 #-l38moths -ljwt -lscrypt
 
-main: main.o db_meta.o
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LIBS) -o main main.o db_meta.o
+main: main.o database.o time.o
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LIBS) -o main main.o db_meta.o time.o
 
 clean:
-	rm -f main.o db_meta.o
+	rm -f main.o database.o time.o

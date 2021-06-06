@@ -2,16 +2,14 @@
 #include <libpq-fe.h>
 #include "sidgo.h"
 
-int generate_id(long int *uniqueId, long int *tableN, int *rowId, int *userId){
+int generate_id(long int *epId, long int *tableN, int *rowId, int *userId){
 
-
-
-    long int getUID = *uniqueId; // miliseconds, epoch from specific point in time.
+    long int getEpId = *epId; // epoch, seconds since 1970/01/01.
     long int getTblN = *tableN; // tablename 
     int getRowId = *rowId; // Row ID modulus 1024
     int getUsrId = *userId; 
 
-    long int x = getUID << (64 - 41);
+    long int x = getEpId << (64 - 41);
     long int tbusMod = getUsrId % getTblN;
 
     x += tbusMod << (64 - 41 - 13);
@@ -23,19 +21,29 @@ int generate_id(long int *uniqueId, long int *tableN, int *rowId, int *userId){
     return 0;
 }
 
-int query(void){
-
-
-}
-
 int main(void){
    int x = db_connections();
    if (x == CONNECTION_OK)
    {
+    printf("gathering data.\n");
 
-    printf("Continuing...\n");
+    /* EpochID */
+    long int sndEpoch = epoch();
+    long int *lxEpoch = &sndEpoch;
 
+    printf("TIME: %ld\n", *lxEpoch);
+
+    /* Table Name */
+    long int sndTblN = 5000;
+    long int *lxTblN = &sndTblN;
+
+    printf("TABLE ID: %ld\n", *lxTblN);
+
+    /* Row ID */
+
+    //generate_id(&sndEpoch, &sndTblN, int *rowId, int *userId)
    }
+
    printf("%d", x);
     return 0;
 }
