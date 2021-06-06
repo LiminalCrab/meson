@@ -34,14 +34,23 @@ int main(void){
     printf("TIME: %ld\n", *lxEpoch);
 
     /* Table Name */
-    long int sndTblN = 5000;
+    long int sndTblN = 10000; //set equal to DB query
     long int *lxTblN = &sndTblN;
 
     printf("TABLE ID: %ld\n", *lxTblN);
 
     /* Row ID */
+        int sndRow = 5; //set equal to DB query
+        int *lxRowId = &sndRow;
+        printf("ROW ID: %d\n", *lxRowId);
 
-    //generate_id(&sndEpoch, &sndTblN, int *rowId, int *userId)
+    /* USER ID */
+        int sndUsrId = 30000; //set equal to DB query
+        int *lxUsrId = &sndUsrId;
+        printf("USER ID: %d\n", *lxUsrId);
+
+
+    generate_id(lxEpoch, lxTblN, lxRowId, lxUsrId);
    }
 
    printf("%d", x);
