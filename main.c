@@ -25,6 +25,7 @@ int main(void){
    int x = db_connections();
    if (x == CONNECTION_OK)
    {
+       epoch();
     printf("gathering data.\n");
 
     /* EpochID */
@@ -50,7 +51,7 @@ int main(void){
         printf("USER ID: %d\n", *lxUsrId);
 
 
-    generate_id(lxEpoch, lxTblN, lxRowId, lxUsrId);
+    //generate_id(lxEpoch, lxTblN, lxRowId, lxUsrId);
    }
 
    printf("%d", x);
