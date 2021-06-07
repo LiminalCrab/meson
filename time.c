@@ -6,15 +6,15 @@
 #define DBIL  1000000000L
 
 
-long int gen_epoch(const long int *arbEpoch, long int cTimeNs){
+long int gen_epoch(const long int *arbEpochNs, long int cTimeNs){
     /* 
     So now we generate the epoch by converting time to miliseconds, and subtract them. 
     */
 
-    const long int lxArbEpoch = *arbEpoch;
+    const long int lxArbEpochNs = *arbEpochNs;
     long int lxCTimeNs = cTimeNs;
 
-    const long int arbEpochMs = lxArbEpoch / 1000000;
+    const long int arbEpochMs = lxArbEpochNs / 1000000;
     long int cTimeMs = lxCTimeNs / 1000000;
     printf("Arbitrary Epoch MILI: %ld, Current Time MILI: %ld\n", arbEpochMs, cTimeMs);
     
@@ -32,8 +32,8 @@ int epoch_data(void){
     struct timespec ts;
 
     /* Time since Saturday, January 1, 2011 12:00:00 AM in nanoseconds. */
-    const long int pEpoch = 1293840000000000000; //mili 1293840000000
-    ts.tv_nsec = pEpoch; // output stEpoch
+    const long int arbEpochNs = 1293840000000000000;
+    ts.tv_nsec = arbEpochNs; // output stEpoch
 
     /* Current time in nanoseconds. */
     long int ns;
@@ -47,7 +47,7 @@ int epoch_data(void){
     all = (uint64_t) sec * DBIL + (uint64_t) ns; 
 
     uint64_t *sndCTimeNs = &all;
-    gen_epoch(&pEpoch, *sndCTimeNs);
+    gen_epoch(&arbEpochNs, *sndCTimeNs);
 
     return 0;
 }
