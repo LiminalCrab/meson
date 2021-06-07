@@ -6,17 +6,18 @@
 #define DBIL  1000000000L
 
 
-long int gen_epoch(const long int *arbEpochNs, long int cTimeNs){
+long int gen_epoch(const long int lxArbEpochNs, long int cTimeNs){
     /* 
-    So now we generate the epoch by converting time to miliseconds, and divide them. 
+    So now we generate the epoch by converting time to miliseconds, and divide them by 1000000. 
+    Subtract the results from one another and return.
     */
-
-    const long int lxArbEpochNs = *arbEpochNs;
     long int lxCTimeNs = cTimeNs;
 
     const long int arbEpochMs = lxArbEpochNs / 1000000;
     long int cTimeMs = lxCTimeNs / 1000000;
-    printf("Arbitrary Epoch MILI: %ld, Current Time MILI: %ld\n", arbEpochMs, cTimeMs);
+
+    //ong int x = cTimeMs - arbEpochMs;
+    printf("CTIME: %ld, EPTIME: %ld\n", cTimeMs, arbEpochMs);
     
     return 0;
 }
@@ -45,9 +46,7 @@ int epoch_data(void){
 
     /* final output in nano seconds. */
     all = (uint64_t) sec * DBIL + (uint64_t) ns; 
-
-    uint64_t *sndCTimeNs = &all;
-    gen_epoch(&arbEpochNs, *sndCTimeNs);
+    gen_epoch(arbEpochNs, all);
 
     return 0;
 }
