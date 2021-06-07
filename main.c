@@ -22,38 +22,39 @@ int generate_id(long int *epId, long int *tableN, int *rowId, int *userId){
 }
 
 int main(void){
-   int x = db_connections();
-   if (x == CONNECTION_OK)
-   {
-       epoch();
-    printf("gathering data.\n");
+    epoch_data();
+  
+//    int x = db_connections();
+//    if (x == CONNECTION_OK)
+//    {
+//     printf("gathering data.\n");
 
-    /* EpochID */
-    long int sndEpoch = epoch();
-    long int *lxEpoch = &sndEpoch;
+//     /* EpochID */
+//     long int sndEpoch = gen_epoch();
+//     long int *lxEpoch = &sndEpoch;
 
-    printf("TIME: %ld\n", *lxEpoch);
+//     printf("TIME: %ld\n", *lxEpoch);
 
-    /* Table Name */
-    long int sndTblN = 10000; //set equal to DB query
-    long int *lxTblN = &sndTblN;
+//     /* Table Name */
+//     long int sndTblN = 10000; //set equal to DB query
+//     long int *lxTblN = &sndTblN;
 
-    printf("TABLE ID: %ld\n", *lxTblN);
+//     printf("TABLE ID: %ld\n", *lxTblN);
 
-    /* Row ID */
-        int sndRow = 5; //set equal to DB query
-        int *lxRowId = &sndRow;
-        printf("ROW ID: %d\n", *lxRowId);
+//     /* Row ID */
+//         int sndRow = 5; //set equal to DB query
+//         int *lxRowId = &sndRow;
+//         printf("ROW ID: %d\n", *lxRowId);
 
-    /* USER ID */
-        int sndUsrId = 30000; //set equal to DB query
-        int *lxUsrId = &sndUsrId;
-        printf("USER ID: %d\n", *lxUsrId);
+//     /* USER ID */
+//         int sndUsrId = 30000; //set equal to DB query
+//         int *lxUsrId = &sndUsrId;
+//         printf("USER ID: %d\n", *lxUsrId);
 
 
-    //generate_id(lxEpoch, lxTblN, lxRowId, lxUsrId);
-   }
+//     //generate_id(lxEpoch, lxTblN, lxRowId, lxUsrId);
+//    }
 
-   printf("%d", x);
+//    printf("%d", x);
     return 0;
 }
