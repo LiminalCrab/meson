@@ -7,11 +7,17 @@
 
 
 long int gen_epoch(const long int *arbEpoch, long int cTimeNs){
+    /* 
+    So now we generate the epoch by converting time to miliseconds, and subtract them. 
+    */
 
     const long int lxArbEpoch = *arbEpoch;
-    printf("%ld and %ld", lxArbEpoch, cTimeNs);
-    
+    long int lxCTimeNs = cTimeNs;
 
+    const long int arbEpochMs = lxArbEpoch / 1000000;
+    long int cTimeMs = lxCTimeNs / 1000000;
+    printf("Arbitrary Epoch MILI: %ld, Current Time MILI: %ld\n", arbEpochMs, cTimeMs);
+    
     return 0;
 }
 
@@ -24,7 +30,6 @@ int epoch_data(void){
     */
 
     struct timespec ts;
-
 
     /* Time since Saturday, January 1, 2011 12:00:00 AM in nanoseconds. */
     const long int pEpoch = 1293840000000000000; //mili 1293840000000
@@ -44,6 +49,5 @@ int epoch_data(void){
     uint64_t *sndCTimeNs = &all;
     gen_epoch(&pEpoch, *sndCTimeNs);
 
-     
     return 0;
 }
