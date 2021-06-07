@@ -8,7 +8,7 @@
 
 long int gen_epoch(const long int *arbEpochNs, long int cTimeNs){
     /* 
-    So now we generate the epoch by converting time to miliseconds, and subtract them. 
+    So now we generate the epoch by converting time to miliseconds, and divide them. 
     */
 
     const long int lxArbEpochNs = *arbEpochNs;
