@@ -2,21 +2,15 @@
 #include <libpq-fe.h>
 #include "sidgo.h"
 
-int generate_id(long int *epId, long int *tableN, int *rowId, int *userId){
+int generate_id(long int epId, long int tableN, int rowId, int userId){
 
-    long int getEpId = *epId; // epoch, seconds since 1970/01/01.
-    long int getTblN = *tableN; // tablename 
-    int getRowId = *rowId; // Row ID modulus 1024
-    int getUsrId = *userId; 
+    printf("Generating ID.");
 
-    long int x = getEpId << (64 - 41);
-    long int tbusMod = getUsrId % getTblN;
+    long int x = epId << 41;
+    long int tbusMod = userId % tableN;
 
     x += tbusMod << (64 - 41 - 13);
-    x += (getRowId % 1024);
-
-    printf("UNIQUE ID: %ld \n", x);
-    printf("BYTES: %ld", sizeof(x));
+    x += (rowId % 1024);
 
     return 0;
 }
@@ -24,37 +18,23 @@ int generate_id(long int *epId, long int *tableN, int *rowId, int *userId){
 int main(void){
     epoch_data();
   
-//    int x = db_connections();
-//    if (x == CONNECTION_OK)
-//    {
-//     printf("gathering data.\n");
+    int x = db_connections();
+    if (x == CONNECTION_OK)
+    {
+    printf("Connection OK. Gathering data.\n");
 
-//     /* EpochID */
-//     long int sndEpoch = gen_epoch();
-//     long int *lxEpoch = &sndEpoch;
+     /* EpochID */
+    long int sndEpoch = epoch_data();
 
-//     printf("TIME: %ld\n", *lxEpoch);
+     /* Table Name */
+    long int sndTblN = 10000; //set equal to DB query
 
-//     /* Table Name */
-//     long int sndTblN = 10000; //set equal to DB query
-//     long int *lxTblN = &sndTblN;
+    int sndRow = 5; //set equal to DB query
 
-//     printf("TABLE ID: %ld\n", *lxTblN);
+    int sndUsrId = 30000; //set equal to DB query
 
-//     /* Row ID */
-//         int sndRow = 5; //set equal to DB query
-//         int *lxRowId = &sndRow;
-//         printf("ROW ID: %d\n", *lxRowId);
+     generate_id(sndEpoch, sndTblN, sndRow, sndUsrId);
+   }
 
-//     /* USER ID */
-//         int sndUsrId = 30000; //set equal to DB query
-//         int *lxUsrId = &sndUsrId;
-//         printf("USER ID: %d\n", *lxUsrId);
-
-
-//     //generate_id(lxEpoch, lxTblN, lxRowId, lxUsrId);
-//    }
-
-//    printf("%d", x);
     return 0;
 }

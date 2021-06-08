@@ -4,7 +4,7 @@
 #include <time.h>
 #include <inttypes.h>
 
-#define DBIL  1000000000L
+#define DBIL 1000000000L
 
 
 int epoch_data(void){
