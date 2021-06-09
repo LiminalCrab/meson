@@ -80,6 +80,7 @@ int db_connections(){
     }
     /* Let's get our ID first. */
     uint64_t flakeid = gen_id();
+    printf("FLAKE: %ld", flakeid);
 
     /* Because I'm too lazy to go back into Docker and change this table's name. */
     PGresult *response = PQexec(conn, "DROP TABLE IF EXISTS bank");
@@ -102,7 +103,7 @@ int db_connections(){
     char buffer[512];
 
     int tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);
-
+    printf("%d", tFlake);
     //response = PQexec(conn, &"INSERT INTO 10000 (flake) VALUES (%ld)", flakeid); 
 
 
