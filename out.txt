@@ -1,4 +1,0 @@
-Connect OK.
-Generating ID...
-TF BYTES: 56
-FLAKE: 85016576
