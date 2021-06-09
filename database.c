@@ -17,14 +17,17 @@ void db_disconnect(PGconn *conn, PGresult *response){
 int db_transact_flake(PGconn *conn, PGresult *response){
 
     char buffer[512];
-    uint64_t flakeid = gen_id();
+    long int flakeid = gen_id(conn, response);
 
+    
+    size_t tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);
+    printf("TF BYTES: %ld\n", tFlake);
+    printf("FLAKE: %ld\n", flakeid);
 
-    int tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);
-    printf("%d", tFlake);
-
-    printf("FLAKE: %ld", flakeid);
-
+    if (tFlake > sizeof(buffer)) {
+        printf("Error, buffer too small.");
+    }
+    /* 
     if (PQresultStatus(response) != PGRES_COMMAND_OK){
         db_disconnect(conn, response);
     }
@@ -32,10 +35,9 @@ int db_transact_flake(PGconn *conn, PGresult *response){
     PQclear(response);
 
     //response = PQexec(conn, &"INSERT INTO 10000 (flake) VALUES (%ld)", flakeid);
-
-
+    */
+    return 0;
 }
-
 
 /* Database connection status functions. */ 
 int db_connections(){

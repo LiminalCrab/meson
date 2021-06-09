@@ -3,7 +3,7 @@
 #include <libpq-fe.h>
 #include "sidgo.h"
 
-uint64_t gen_id(){
+long int gen_id(){
 
     long int mil_t = epoch_data();
     long int serial = 10000; //set equal to DB query
@@ -31,7 +31,7 @@ int main(void){
 
     int conn_stat = db_connections();
     if (conn_stat == CONNECTION_OK){
-        gen_id();
+        db_transact_flake();
     }
 
     return 0;
