@@ -3,17 +3,22 @@
 #include <libpq-fe.h>
 #include "sidgo.h"
 
-uint64_t gen_id(long int epId, long int tableN, int rowId, int userId){
+uint64_t gen_id(){
+
+    long int mil_t = epoch_data();
+    long int serial = 10000; //set equal to DB query
+    int rowId = 5; //set equal to DB query
+    int userId = 30000; //set equal to DB query
 
     printf("Generating ID...\n");
 
-    long int x = epId << (64 - 41);
-    long int tbusMod = userId % tableN;
+    long int x = mil_t << (64 - 41);
+    long int tbusMod = userId % serial;
 
     x += tbusMod << (64 - 41 - 13);
     x += (rowId % 1024);
 
-    /* Convert to positive, math is wrong somewhere I guess. */
+    /* Convert to positive */
     long int y;
     if (x > 0){
         y = x * -1;
@@ -23,27 +28,11 @@ uint64_t gen_id(long int epId, long int tableN, int rowId, int userId){
 }
 
 int main(void){
-    epoch_data();
-  
-    int x = db_connections(); // yo this is calling the db_connections function... side effects!
-    if (x == CONNECTION_OK)
-    {
-       
-        printf("Connection OK. Gathering data.\n");
 
-     /* EpochID */
-        long int sndEpoch = epoch_data();
-
-     /* Table Name */
-        long int sndTblN = 10000; //set equal to DB query
-
-        int sndRow = 5; //set equal to DB query
-   
-        int sndUsrId = 30000; //set equal to DB query
-
-    
-        gen_id(sndEpoch, sndTblN, sndRow, sndUsrId);
-   }
+    int conn_stat = db_connections();
+    if (conn_stat == CONNECTION_OK){
+        gen_id();
+    }
 
     return 0;
 }

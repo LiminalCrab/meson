@@ -14,6 +14,28 @@ void db_disconnect(PGconn *conn, PGresult *response){
     exit(1);
 }
 
+int db_transact_flake(PGconn *conn, PGresult *response){
+
+    char buffer[512];
+    uint64_t flakeid = gen_id();
+
+
+    int tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);
+    printf("%d", tFlake);
+
+    printf("FLAKE: %ld", flakeid);
+
+    if (PQresultStatus(response) != PGRES_COMMAND_OK){
+        db_disconnect(conn, response);
+    }
+
+    PQclear(response);
+
+    //response = PQexec(conn, &"INSERT INTO 10000 (flake) VALUES (%ld)", flakeid);
+
+
+}
+
 
 /* Database connection status functions. */ 
 int db_connections(){
@@ -78,35 +100,6 @@ int db_connections(){
         printf("Negotiating environment-driven parameter settings.\n");
         break;
     }
-    /* Let's get our ID first. */
-    uint64_t flakeid = gen_id();
-    printf("FLAKE: %ld", flakeid);
-
-    /* Because I'm too lazy to go back into Docker and change this table's name. */
-    PGresult *response = PQexec(conn, "DROP TABLE IF EXISTS bank");
-
-    if (PQresultStatus(response) != PGRES_COMMAND_OK){
-        db_disconnect(conn, response);
-    }
-
-    PQclear(response);
-
-    response = PQexec(conn, "CREATE TABLE sid (id BIGSERIAL PRIMARY KEY, flake INT8, serial SMALLINT)");
-
-    if (PQresultStatus(response) != PGRES_COMMAND_OK){
-        db_disconnect(conn, response);
-    }
-
-    PQclear(response);
-
-    /* Queries we'll want to use, probably should make these functions later. */
-    char buffer[512];
-
-    int tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);
-    printf("%d", tFlake);
-    //response = PQexec(conn, &"INSERT INTO 10000 (flake) VALUES (%ld)", flakeid); 
-
-
 
     return 0;
 }
