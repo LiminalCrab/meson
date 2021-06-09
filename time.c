@@ -23,7 +23,7 @@ int epoch_data(void){
     nsOut = (uint64_t) sec * DBIL + (uint64_t) ns; 
 
     /* Convert to miliseconds */
-    long int cTimeMs = nsOut / 1000000;
+    uint64_t cTimeMs = nsOut / 1000000;
 
     return cTimeMs;
 }

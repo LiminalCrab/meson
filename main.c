@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <inttypes.h>
 #include <libpq-fe.h>
 #include "sidgo.h"
 
@@ -21,19 +22,21 @@ int main(void){
     int x = db_connections();
     if (x == CONNECTION_OK)
     {
-    printf("Connection OK. Gathering data.\n");
+       
+        printf("Connection OK. Gathering data.\n");
 
      /* EpochID */
-    long int sndEpoch = epoch_data();
+        long int sndEpoch = epoch_data();
 
      /* Table Name */
-    long int sndTblN = 10000; //set equal to DB query
+        long int sndTblN = 10000; //set equal to DB query
 
-    int sndRow = 5; //set equal to DB query
+        int sndRow = 5; //set equal to DB query
+   
+        int sndUsrId = 30000; //set equal to DB query
 
-    int sndUsrId = 30000; //set equal to DB query
-
-     generate_id(sndEpoch, sndTblN, sndRow, sndUsrId);
+    
+        generate_id(sndEpoch, sndTblN, sndRow, sndUsrId);
    }
 
     return 0;

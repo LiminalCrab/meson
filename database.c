@@ -1,6 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <libpq-fe.h>
 
+void db_disconnect(PGconn *conn, PGresult *response){
+
+    fprintf(stderr, "%s\n", PQerrorMessage(conn));    
+
+    PQclear(response);
+    PQfinish(conn);    
+    
+    exit(1);
+}
+
+
+/* Database connection status functions. */ 
 int db_connections(){
     PGconn *conn;
 
@@ -14,6 +27,13 @@ int db_connections(){
 
         case CONNECTION_OK:
         printf("Connect OK.\n");
+        break;
+
+        case CONNECTION_BAD:
+        printf("Connection failed.\n");
+        PQerrorMessage(conn);
+        PQfinish(conn);
+        exit(1);
         break;
 
         case CONNECTION_NEEDED:
@@ -40,10 +60,6 @@ int db_connections(){
         printf("Connection OK; waiting to send.\n");
         break;
 
-        case CONNECTION_BAD:
-        printf("Connection failed.\n");
-        break;
-
         case CONNECTION_AWAITING_RESPONSE:
         printf("Waiting for a response from the server.\n");
         break;
@@ -60,6 +76,25 @@ int db_connections(){
         printf("Negotiating environment-driven parameter settings.\n");
         break;
     }
+
+    /* Because I'm too lazy to go back into Docker and change this table's name. */
+    PGresult *response = PQexec(conn, "DROP TABLE IF EXISTS bank");
+
+    if (PQresultStatus(response) != PGRES_COMMAND_OK){
+        db_disconnect(conn, response);
+    }
+
+    PQclear(response);
+
+    response = PQexec(conn, "CREATE TABLE 10000 (id BIGSERIAL PRIMARY KEY, flake INT8)");
+
+    if (PQresultStatus(response) != PGRES_COMMAND_OK){
+        db_disconnect(conn, response);
+    }
+
+    PQclear(response);
+
+
 
     return 0;
 }
