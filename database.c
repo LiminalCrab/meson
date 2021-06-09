@@ -1,6 +1,8 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <libpq-fe.h>
+#include "sidgo.h"
 
 void db_disconnect(PGconn *conn, PGresult *response){
 
@@ -76,6 +78,8 @@ int db_connections(){
         printf("Negotiating environment-driven parameter settings.\n");
         break;
     }
+    /* Let's get our ID first. */
+    uint64_t flakeid = gen_id();
 
     /* Because I'm too lazy to go back into Docker and change this table's name. */
     PGresult *response = PQexec(conn, "DROP TABLE IF EXISTS bank");
@@ -86,13 +90,20 @@ int db_connections(){
 
     PQclear(response);
 
-    response = PQexec(conn, "CREATE TABLE 10000 (id BIGSERIAL PRIMARY KEY, flake INT8)");
+    response = PQexec(conn, "CREATE TABLE sid (id BIGSERIAL PRIMARY KEY, flake INT8, serial SMALLINT)");
 
     if (PQresultStatus(response) != PGRES_COMMAND_OK){
         db_disconnect(conn, response);
     }
 
     PQclear(response);
+
+    /* Queries we'll want to use, probably should make these functions later. */
+    char buffer[512];
+
+    int tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);
+
+    //response = PQexec(conn, &"INSERT INTO 10000 (flake) VALUES (%ld)", flakeid); 
 
 
 

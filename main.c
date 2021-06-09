@@ -3,7 +3,7 @@
 #include <libpq-fe.h>
 #include "sidgo.h"
 
-int generate_id(long int epId, long int tableN, int rowId, int userId){
+uint64_t gen_id(long int epId, long int tableN, int rowId, int userId){
 
     printf("Generating ID.");
 
@@ -13,7 +13,7 @@ int generate_id(long int epId, long int tableN, int rowId, int userId){
     x += tbusMod << (64 - 41 - 13);
     x += (rowId % 1024);
 
-    return 0;
+    return x;
 }
 
 int main(void){
@@ -36,7 +36,7 @@ int main(void){
         int sndUsrId = 30000; //set equal to DB query
 
     
-        generate_id(sndEpoch, sndTblN, sndRow, sndUsrId);
+        gen_id(sndEpoch, sndTblN, sndRow, sndUsrId);
    }
 
     return 0;
