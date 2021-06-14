@@ -22,7 +22,7 @@ int db_transact_flake(PGconn *conn){
     printf("FLAKE: %lu\n", flakeid);
 
     
-    unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%lu, %u)", flakeid, 2000);
+    unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%lu, %d)", flakeid, 2000);
     printf("BUFFER: %s", buffer);
 
 
