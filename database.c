@@ -19,7 +19,7 @@ int db_transact_flake(PGconn *conn){
     char buffer[1024];
     long int flakeid = gen_id();
     PGresult   *res;
-    printf("%ld\n", flakeid);
+    printf("FLAKE: %ld\n", flakeid);
 
     
     size_t tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);

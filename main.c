@@ -23,9 +23,11 @@ long int gen_id(){
    
     if (x < 0){
         y = x * -1;
+
+        return y;
     }
 
-    return y;
+    return x;
 }
 
 int main(void){
