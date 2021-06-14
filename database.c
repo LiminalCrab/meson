@@ -5,8 +5,7 @@
 #include "sidgo.h"
 
 void db_disconnect(PGconn *conn, PGresult *response){
-
-    fprintf(stderr, "%s\n", PQerrorMessage(conn));    
+    printf("Calling db_disconnect...\n");
 
     PQclear(response);
     PQfinish(conn);    
@@ -14,33 +13,39 @@ void db_disconnect(PGconn *conn, PGresult *response){
     exit(1);
 }
 
-int db_transact_flake(PGconn *conn, PGresult *response){
+int db_transact_flake(PGconn *conn){
+    printf("Calling db_transact_flake\n");
 
-    char buffer[512];
-    long int flakeid = gen_id(conn, response);
+    char buffer[1024];
+    long int flakeid = gen_id();
+    PGresult   *res;
+    printf("%ld\n", flakeid);
 
     
     size_t tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);
     printf("TF BYTES: %ld\n", tFlake);
-    printf("FLAKE: %ld\n", flakeid);
+    printf("BUFFER: %s", buffer);
+
 
     if (tFlake > sizeof(buffer)) {
         printf("Error, buffer too small.");
     }
-    /* 
-    if (PQresultStatus(response) != PGRES_COMMAND_OK){
-        db_disconnect(conn, response);
-    }
 
-    PQclear(response);
+    res = PQexec(conn, buffer);
 
-    //response = PQexec(conn, &"INSERT INTO 10000 (flake) VALUES (%ld)", flakeid);
-    */
+    if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+
+        printf("INSERT command failed\n");        
+        PQclear(res);
+        db_disconnect(conn, res);
+    }      
+    PQclear(res);
     return 0;
 }
 
 /* Database connection status functions. */ 
 int db_connections(){
+    printf("Calling db_connections...");
     PGconn *conn;
 
     conn = PQconnectdb("");

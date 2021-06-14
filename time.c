@@ -13,7 +13,7 @@ int epoch_data(void){
 
     /* Current time in nanoseconds. */
     long int ns;
-    time_t sec;
+    time_t sec; 
     uint64_t nsOut;
     clock_gettime(CLOCK_REALTIME, &ts);
     sec = ts.tv_sec;
@@ -24,6 +24,7 @@ int epoch_data(void){
 
     /* Convert to miliseconds */
     uint64_t cTimeMs = nsOut / 1000000;
+    printf("TIME IN MILISECONS:\n %lu", cTimeMs);
 
     return cTimeMs;
 }
