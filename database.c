@@ -16,10 +16,11 @@ void db_disconnect(PGconn *conn, PGresult *res){
 
 /* Initial seed */ 
 int db_init_seed(void){
-    PGconn *conn;
-    conn = PQconnectdb("");
+   // PGconn *conn;
+  //  conn = PQconnectdb("");
     
     unsigned long seedFlake = gen_id();
+    printf("%lu", seedFlake);
 
 
     return 0;
@@ -70,59 +71,59 @@ int db_connections(void){
     switch(PQstatus(conn)){
 
         case CONNECTION_STARTED:
-        printf("Waiting for connection to be made.\n");
-        break;
+            printf("Waiting for connection to be made.\n");
+            break;
 
         case CONNECTION_OK:
-        printf("Connect OK.\n");
-        break;
+            printf("Connect OK.\n");
+            break;
 
         case CONNECTION_BAD:
-        printf("Connection failed.\n");
-        PQerrorMessage(conn);
-        PQfinish(conn);
-        exit(1);
-        break;
+            printf("Connection failed.\n");
+            PQerrorMessage(conn);
+            PQfinish(conn);
+            exit(1);
+            break;
 
         case CONNECTION_NEEDED:
-        printf("Internal state: connect() needed.\n");
-        break;
+            printf("Internal state: connect() needed.\n");
+            break;
 
         case CONNECTION_CHECK_WRITABLE:
-        printf("Checking if session is read-write.\n");
-        break;
+            printf("Checking if session is read-write.\n");
+            break;
 
         case CONNECTION_CONSUME:
-        printf("Consuming any extra messages.\n");
-        break;
+            printf("Consuming any extra messages.\n");
+            break;
 
         case CONNECTION_GSS_STARTUP:
-        printf("Negotiating GSSAPI.\n");
-        break;
+            printf("Negotiating GSSAPI.\n");
+            break;
 
         case CONNECTION_CHECK_TARGET:
-        printf("Checking target server properties.\n");
-        break;
+            printf("Checking target server properties.\n");
+            break;
 
         case CONNECTION_MADE:
-        printf("Connection OK; waiting to send.\n");
-        break;
+            printf("Connection OK; waiting to send.\n");
+            break;
 
         case CONNECTION_AWAITING_RESPONSE:
-        printf("Waiting for a response from the server.\n");
-        break;
+            printf("Waiting for a response from the server.\n");
+            break;
 
         case CONNECTION_AUTH_OK:
-        printf("Received authentication; waiting for backend start-up to finish.\n");
-        break;
+            printf("Received authentication; waiting for backend start-up to finish.\n");
+            break;
 
         case CONNECTION_SSL_STARTUP:
-        printf("Negotiating SSL encryption.\n");
-        break;
+            printf("Negotiating SSL encryption.\n");
+            break;
 
         case CONNECTION_SETENV:
-        printf("Negotiating environment-driven parameter settings.\n");
-        break;
+            printf("Negotiating environment-driven parameter settings.\n");
+            break;
     }
 
     return 0;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <inttypes.h>
+#include <unistd.h>
 #include <libpq-fe.h>
 #include "sidgo.h"
 
@@ -41,13 +42,32 @@ unsigned long gen_id(void){
     return x;
 }
 
-int main(void){
+int main(int argc, char *argv[]){
 
     int conn_stat = db_connections();
-    if (conn_stat == CONNECTION_OK){
-        db_transact_flake();
-    }
+    int opt;
 
-    return 0;
+    while((opt = getopt(argc, argv, "ash")) != -1) 
+        { 
+            switch(opt) 
+            { 
+                case 'a':
+                    if (conn_stat == CONNECTION_OK){
+                        db_transact_flake();
+                     }
+                     break;
+                case 's':
+                    printf("Seeding database...\n");
+                    gen_seed_id();
+                    break; 
+                case 'h': 
+                    printf("options available: %c\n", opt);
+                    printf("-s >> seed the database with the first entry, use this if you're just starting.\n");
+                    printf("-h >> help, shows the available commands.\n"); 
+                    break; 
+            } 
+        } 
+
+        return 0;
 
 }
