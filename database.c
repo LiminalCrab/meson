@@ -17,13 +17,12 @@ int db_transact_flake(PGconn *conn){
     printf("Calling db_transact_flake\n");
 
     char buffer[1024];
-    long int flakeid = gen_id();
+    unsigned long flakeid = gen_id();
     PGresult   *res;
     printf("FLAKE: %ld\n", flakeid);
 
     
-    size_t tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 10000);
-    printf("TF BYTES: %ld\n", tFlake);
+    unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 2000);
     printf("BUFFER: %s", buffer);
 
 
