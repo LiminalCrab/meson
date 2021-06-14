@@ -6,7 +6,7 @@
 
 #define DBIL 1000000000L
 
-
+/* Time data */ 
 int epoch_data(void){
 
     struct timespec ts;
@@ -20,11 +20,9 @@ int epoch_data(void){
 
     /* final output in nano seconds. */
     nsOut = (uint64_t) sec * DBIL + (uint64_t) ns; 
-    printf("NSOUT: %ld\n", nsOut);
 
     /* Convert to miliseconds */
     uint64_t cTimeMs = nsOut / 1000000;
-    printf("TIME IN MILISECONS: %lu\n", cTimeMs);
 
     return cTimeMs;
 }

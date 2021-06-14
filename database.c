@@ -4,29 +4,28 @@
 #include <libpq-fe.h>
 #include "sidgo.h"
 
-void db_disconnect(PGconn *conn, PGresult *response){
-    printf("Calling db_disconnect...\n");
+/* Disconnect */ 
 
-    PQclear(response);
+void db_disconnect(PGconn *conn, PGresult *res){
+    printf("Disconnecting from Database.");
+    PQclear(res);
     PQfinish(conn);    
     
     exit(1);
 }
 
+/* Snowflake ID transaction */ 
+
 int db_transact_flake(void){
     PGconn *conn;
     conn = PQconnectdb("");
 
-    printf("Calling db_transact_flake\n");
-
     char buffer[512];
     unsigned long flakeid = gen_id();
     PGresult   *res;
-    printf("FLAKE: %lu\n", flakeid);
 
     
     unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%lu, %d)", flakeid, 2000);
-    printf("BUFFER: %s", buffer);
 
 
     if (tFlake > sizeof(buffer)) {
@@ -52,8 +51,7 @@ int db_transact_flake(void){
 }
 
 /* Database connection status functions. */ 
-int db_connections(){
-    printf("Calling db_connections...");
+int db_connections(void){
     PGconn *conn;
 
     conn = PQconnectdb("");
