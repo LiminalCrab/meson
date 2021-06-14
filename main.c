@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
             { 
                 case 'a':
                     if (conn_stat == CONNECTION_OK){
-                        db_transact_flake();
+                        db_table_exist();
                      }
                      break;
                 case 's':

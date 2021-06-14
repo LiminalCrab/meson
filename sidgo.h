@@ -3,8 +3,8 @@
 
 /*database.c*/
 extern int db_connections(void); /* Database connection */ 
-extern int db_transact_flake(void); 
-
+extern int db_transact_flake(void); /* Embeds generated ID into DB table */
+extern int db_table_exist(void);
 
 /* time.c */
 extern long int epoch_data(void); /* Time since 1970/01/01 */

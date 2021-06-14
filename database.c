@@ -14,6 +14,40 @@ void db_disconnect(PGconn *conn, PGresult *res){
     exit(1);
 }
 
+int db_table_exist(void){
+    PGconn *conn;
+    conn = PQconnectdb("");
+    PGresult *res;
+
+    /* Buffering SQL commands */
+    char buffer[512];
+    unsigned long tAccount = snprintf(buffer, sizeof(buffer), "CREATE TABLE IF NOT EXISTS sid"\
+                                                            "(id BIGSERIAL, flake NUMERIC, serial BIGINT);");
+
+
+    printf("Running accountability for primary table.\n");
+
+    if (tAccount > sizeof(buffer)) {
+        printf("Error, buffer too small.");
+    }
+
+    res = PQexec(conn, buffer);
+
+    if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+        printf("Table accountability failed.\n");
+        printf("%s\n", PQresultErrorMessage(res));
+        printf("%s\n", PQerrorMessage(conn));
+        
+        PQclear(res);
+        db_disconnect(conn, res);
+    }
+
+    PQclear(res);
+    PQfinish(conn);
+
+    return 0;
+}
+
 /* Initial seed */ 
 int db_init_seed(void){
    // PGconn *conn;
@@ -34,7 +68,7 @@ int db_transact_flake(void){
 
     char buffer[512];
     unsigned long flakeid = gen_id();
-    PGresult   *res;
+    PGresult *res;
 
     
     unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%lu, %d)", flakeid, 2000);
@@ -65,7 +99,6 @@ int db_transact_flake(void){
 /* Database connection status functions. */ 
 int db_connections(void){
     PGconn *conn;
-
     conn = PQconnectdb("");
 
     switch(PQstatus(conn)){
