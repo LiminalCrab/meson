@@ -40,6 +40,8 @@ int db_transact_flake(PGconn *conn){
         db_disconnect(conn, res);
     }      
     PQclear(res);
+    PQfinish(conn);
+    
     return 0;
 }
 

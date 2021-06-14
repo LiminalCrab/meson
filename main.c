@@ -21,7 +21,7 @@ long int gen_id(){
 
     long int y;
    
-    if (x > 0){
+    if (x < 0){
         y = x * -1;
     }
 

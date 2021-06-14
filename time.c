@@ -11,7 +11,6 @@ int epoch_data(void){
 
     struct timespec ts;
 
-    /* Current time in nanoseconds. */
     long int ns;
     time_t sec; 
     uint64_t nsOut;
@@ -21,10 +20,11 @@ int epoch_data(void){
 
     /* final output in nano seconds. */
     nsOut = (uint64_t) sec * DBIL + (uint64_t) ns; 
+    printf("NSOUT: %ld\n", nsOut);
 
     /* Convert to miliseconds */
     uint64_t cTimeMs = nsOut / 1000000;
-    printf("TIME IN MILISECONS:\n %lu", cTimeMs);
+    printf("TIME IN MILISECONS: %lu\n", cTimeMs);
 
     return cTimeMs;
 }
