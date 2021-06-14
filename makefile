@@ -9,4 +9,4 @@ main: main.o database.o time.o
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(LIBS) -o main main.o database.o time.o
 
 clean:
-	rm -f main.o database.o time.o
+	rm -f main.o database.o time.o valgrind-out.txt valgrind-out.txt.core.79207
