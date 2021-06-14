@@ -14,6 +14,17 @@ void db_disconnect(PGconn *conn, PGresult *res){
     exit(1);
 }
 
+/* Initial seed */ 
+int db_init_seed(void){
+    PGconn *conn;
+    conn = PQconnectdb("");
+    
+    unsigned long seedFlake = gen_id();
+
+
+    return 0;
+}
+
 /* Snowflake ID transaction */ 
 
 int db_transact_flake(void){

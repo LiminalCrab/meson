@@ -3,6 +3,24 @@
 #include <libpq-fe.h>
 #include "sidgo.h"
 
+/* Initial seed for the database*/ 
+unsigned long gen_seed_id(void){
+
+    unsigned long seed_milTime = epoch_data();
+    unsigned int seed_serial = 2000;
+    unsigned int seed_rowId = 5;
+    unsigned int seed_userId = 31341;
+
+    unsigned long x = seed_milTime << (64 - 41);
+    unsigned long  usrSrlMod = seed_userId % seed_serial;
+
+    x += usrSrlMod << (64 - 41 - 13);
+    x += (seed_rowId & 0x3ff);
+
+    printf("GENERATED SEED ID: %lu\n", x);
+    
+    return x;
+}
 
 /* Generate ID */ 
 unsigned long gen_id(void){
@@ -31,4 +49,5 @@ int main(void){
     }
 
     return 0;
+
 }
