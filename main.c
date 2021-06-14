@@ -20,7 +20,7 @@ unsigned long gen_id(){
 
     x += usrSrlMod << (64 - 41 - 13);
     printf("GEN_ID | x1 : %lu\n", x);
-    x += (rowId % 1024);
+    x += (rowId & 0x3ff);
     printf("GEN_ID | x2 : %lu\n", x);
     printf("SIZE OF FINAL GEN ID: %lu\n", sizeof(x));
 
@@ -34,7 +34,7 @@ int main(void){
     int conn_stat = db_connections();
     printf("conn_stat: %d\n", conn_stat);
     if (conn_stat == CONNECTION_OK){
-        db_transact_flake(conn_stat);
+        db_transact_flake();
     }
 
     return 0;

@@ -3,7 +3,7 @@
 
 /*database.c*/
 extern int db_connections(); /* Database connection */ 
-extern int db_transact_flake(); 
+extern int db_transact_flake(void); 
 
 
 /* time.c */

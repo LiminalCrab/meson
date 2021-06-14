@@ -13,10 +13,13 @@ void db_disconnect(PGconn *conn, PGresult *response){
     exit(1);
 }
 
-int db_transact_flake(PGconn *conn){
+int db_transact_flake(void){
+    PGconn *conn;
+    conn = PQconnectdb("");
+
     printf("Calling db_transact_flake\n");
 
-    char buffer[1024];
+    char buffer[512];
     unsigned long flakeid = gen_id();
     PGresult   *res;
     printf("FLAKE: %lu\n", flakeid);
@@ -33,11 +36,15 @@ int db_transact_flake(PGconn *conn){
     res = PQexec(conn, buffer);
 
     if (PQresultStatus(res) != PGRES_COMMAND_OK) {
-
-        printf("INSERT command failed\n");        
+        printf("INSERT command failed\n");
+        printf("%s\n", PQresultErrorMessage(res));
+        printf("%s\n", PQerrorMessage(conn));
+        
         PQclear(res);
         db_disconnect(conn, res);
-    }      
+    }
+
+
     PQclear(res);
     PQfinish(conn);
     
