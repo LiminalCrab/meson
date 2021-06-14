@@ -7,7 +7,7 @@ unsigned long gen_id(){
      printf("Calling gen_id...\n");
 
     unsigned long milTime = epoch_data();
-    unsigned long serial = 2000; //set equal to DB query
+    unsigned int serial = 2000; //set equal to DB query
     unsigned int rowId = 5; //set equal to DB query
     unsigned int userId = 31341; //set equal to DB query
 

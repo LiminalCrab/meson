@@ -19,10 +19,10 @@ int db_transact_flake(PGconn *conn){
     char buffer[1024];
     unsigned long flakeid = gen_id();
     PGresult   *res;
-    printf("FLAKE: %ld\n", flakeid);
+    printf("FLAKE: %lu\n", flakeid);
 
     
-    unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%ld, %d)", flakeid, 2000);
+    unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%lu, %u)", flakeid, 2000);
     printf("BUFFER: %s", buffer);
 
 
