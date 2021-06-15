@@ -70,7 +70,7 @@ Using the function epoch_data(), it takes time and mutates it into a flake throu
 
 Same as above, but all the numbers in this are hardcoded, it's used to generate the first Id to go into the table, everything after is handled by gen_id()
 
-This flake is what I call the "seed", since it's what future Id's will require to use the data provided in the sid table. 
+This flake is what I call the "seed", since it's what future Ids will require to use the data provided in the sid table. 
  
 
 
