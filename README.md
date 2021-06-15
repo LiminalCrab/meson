@@ -5,6 +5,7 @@ It's purpose is to generate 64 bit unique id's and store them in a database tabl
 
 ## Requirements
 Linux / Unix.
+
 A postgres database and a table with this schema [here](https://github.com/LiminalCrab/sidg64/tree/main/table). 
 
 ## Terms
@@ -56,6 +57,7 @@ Returns the most recent row id from the database, extremely important as it's us
 
 ## main.c
 
+
 ### unsigned long gen_id(void)
 
 Using the function epoch_data(), it takes time and mutates it into a flake through various bitwise operations. 
@@ -69,6 +71,7 @@ Using the function epoch_data(), it takes time and mutates it into a flake throu
 ### unsigned long gen_seed_id
 
 Same as above, but all the numbers in this are hardcoded, it's used to generate the first Id to go into the table, everything after is handled by gen_id()
+
 
 This flake is what I call the "seed", since it's what future Id's will require to use the data provided in the sid table. 
  
