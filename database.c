@@ -31,7 +31,7 @@ int db_row_id(void){
     }
 
     retRowId = atoi(PQgetvalue(res,0,0));
-    printf("ROW ID: %d", retRowId);
+    printf("ROW ID: %d\n", retRowId);
 
     PQclear(res);
     PQfinish(conn);

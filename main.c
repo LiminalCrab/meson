@@ -18,7 +18,7 @@ unsigned long gen_seed_id(void){
     x += usrSrlMod << (64 - 41 - 13);
     x += (seed_rowId & 0x3ff);
 
-    printf("GENERATED SEED ID: %lu\n", x);
+    printf("GENERATED SEED: %lu\n", x);
     
     return x;
 }
@@ -37,7 +37,7 @@ unsigned long gen_id(void){
     x += usrSrlMod << (64 - 41 - 13);
     x += (rowId & 0x3ff);
 
-    printf("GENERATED ID: %lu\n", x);
+    printf("GENERATED FLAKE: %lu\n", x);
     
     return x;
 }
@@ -52,8 +52,7 @@ int main(int argc, char *argv[]){
             switch(opt) 
             { 
                 case 'a':
-                    //gen_id();
-                    db_row_id();
+                    db_transact_flake();
                     break;
                 case 's':
                     if (conn_stat == CONNECTION_OK){
