@@ -8,9 +8,9 @@
 unsigned long gen_seed_id(void){
 
     unsigned long seed_milTime = epoch_data();
-    unsigned int seed_serial = 2000;
+    unsigned int seed_serial = 1000;
     unsigned int seed_rowId = 5;
-    unsigned int seed_userId = 31341;
+    unsigned int seed_userId = 10000;
 
     unsigned long x = seed_milTime << (64 - 41);
     unsigned long  usrSrlMod = seed_userId % seed_serial;
@@ -27,9 +27,9 @@ unsigned long gen_seed_id(void){
 unsigned long gen_id(void){
 
     unsigned long milTime = epoch_data();
-    unsigned int serial = 2000;
-    unsigned int rowId = 5;
-    unsigned int userId = 31341;
+    unsigned int serial = 1000;
+    unsigned int rowId = db_row_id();
+    unsigned int userId = 10000;
 
     unsigned long x = milTime << (64 - 41);
     unsigned long  usrSrlMod = userId % serial;
@@ -52,13 +52,14 @@ int main(int argc, char *argv[]){
             switch(opt) 
             { 
                 case 'a':
+                    //gen_id();
+                    db_row_id();
+                    break;
+                case 's':
                     if (conn_stat == CONNECTION_OK){
                         db_table_exist();
-                     }
-                     break;
-                case 's':
-                    printf("Seeding database...\n");
-                    gen_seed_id();
+                        db_init_seed();
+                    }
                     break; 
                 case 'h': 
                     printf("options available: %c\n", opt);

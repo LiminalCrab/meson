@@ -14,16 +14,42 @@ void db_disconnect(PGconn *conn, PGresult *res){
     exit(1);
 }
 
+/* Get latest row id from db */
+int db_row_id(void){
+    PGconn *conn;
+    conn = PQconnectdb("");
+    PGresult *res;
+
+    int retRowId;
+    res = PQexec(conn, "SELECT MAX(id) FROM sid");
+
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+
+        printf("No data retrieved\n");        
+        PQclear(res);
+        db_disconnect(conn, res);
+    }
+
+    retRowId = atoi(PQgetvalue(res,0,0));
+    printf("ROW ID: %d", retRowId);
+
+    PQclear(res);
+    PQfinish(conn);
+
+    return retRowId;
+}
+
+/* Checks if the sid table in the database exists, if it doesn't, it create it.*/
+
 int db_table_exist(void){
     PGconn *conn;
     conn = PQconnectdb("");
     PGresult *res;
 
     /* Buffering SQL commands */
-    char buffer[512];
+    char buffer[128];
     unsigned long tAccount = snprintf(buffer, sizeof(buffer), "CREATE TABLE IF NOT EXISTS sid"\
                                                             "(id BIGSERIAL, flake NUMERIC, serial BIGINT);");
-
 
     printf("Running accountability for primary table.\n");
 
@@ -45,17 +71,45 @@ int db_table_exist(void){
     PQclear(res);
     PQfinish(conn);
 
+    printf("Continuing.\n");
     return 0;
 }
 
-/* Initial seed */ 
-int db_init_seed(void){
-   // PGconn *conn;
-  //  conn = PQconnectdb("");
-    
-    unsigned long seedFlake = gen_id();
-    printf("%lu", seedFlake);
+/* seed transaction */ 
 
+int db_init_seed(void){
+    PGconn *conn;
+    conn = PQconnectdb("");
+
+    char buffer[128];
+    unsigned long seedFlakeId = gen_seed_id();
+    PGresult *res;
+
+    unsigned long sFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%lu, %d)", seedFlakeId, 1000);
+
+
+    if (sFlake > sizeof(buffer)) {
+        printf("Error, buffer too small.\n");
+    }
+
+    res = PQexec(conn, buffer);
+    printf("Seeding database...\n");
+
+
+    if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+        printf("INSERT command failed\n");
+        printf("%s\n", PQresultErrorMessage(res));
+        printf("%s\n", PQerrorMessage(conn));
+        
+        PQclear(res);
+        db_disconnect(conn, res);
+    }
+
+
+    PQclear(res);
+    PQfinish(conn);
+
+    printf("Done.\n");
 
     return 0;
 }
@@ -66,12 +120,12 @@ int db_transact_flake(void){
     PGconn *conn;
     conn = PQconnectdb("");
 
-    char buffer[512];
-    unsigned long flakeid = gen_id();
+    char buffer[70];
+    unsigned long flakeId = gen_id();
     PGresult *res;
 
     
-    unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%lu, %d)", flakeid, 2000);
+    unsigned long tFlake = snprintf(buffer, sizeof(buffer), "INSERT INTO sid (flake, serial) VALUES (%lu, %d)", flakeId, 1000);
 
 
     if (tFlake > sizeof(buffer)) {
@@ -97,6 +151,7 @@ int db_transact_flake(void){
 }
 
 /* Database connection status functions. */ 
+
 int db_connections(void){
     PGconn *conn;
     conn = PQconnectdb("");
