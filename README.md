@@ -1,6 +1,6 @@
 # ABOUT
 
-Sidg64 is simple unique identity generator for postgresql written in C. It's purpose is to generate 64 bit unique id's and store them in a database table to be used in web applications.
+Sidg64 is simple unique identifier (UID) generator for postgresql written in C. It's purpose is to generate 64 bit unique id's and store them in a postgres database table for use in personal / small business software and web applications.
 
 Usage examples: 
 
