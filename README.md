@@ -5,7 +5,7 @@ Sidg64 is simple unique identity generator for postgresql written in C. It's pur
 Usage examples: 
 
 Twitter's URL
-https://twitter.com/Sudogami/status/**1419436607522869256**
+https://twitter.com/Sudogami/status/ **1419436607522869256**
 
 
 ## Requirements
