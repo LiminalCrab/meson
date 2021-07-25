@@ -1,6 +1,12 @@
 # ABOUT
 
-Sidg64 is simple unique identity generator for postgresql written in ANSI C. It's purpose is to generate 64 bit unique id's and store them in a database table to be used in web applications
+Sidg64 is simple unique identity generator for postgresql written in C. It's purpose is to generate 64 bit unique id's and store them in a database table to be used in web applications.
+
+Usage examples: 
+
+Twitter's URL
+https://twitter.com/Sudogami/status/**1419436607522869256**
+
 
 ## Requirements
 Linux / Unix.
