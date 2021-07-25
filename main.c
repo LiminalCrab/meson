@@ -1,43 +1,73 @@
 #include <stdio.h>
 #include <inttypes.h>
+#include <unistd.h>
 #include <libpq-fe.h>
 #include "sidgo.h"
 
-int generate_id(long int epId, long int tableN, int rowId, int userId){
+/* Initial seed for the database*/ 
+unsigned long gen_seed_id(void){
 
-    printf("Generating ID.");
+    unsigned long seed_milTime = epoch_data();
+    unsigned int seed_serial = 1000;
+    unsigned int seed_rowId = 5;
+    unsigned int seed_userId = 10000;
 
-    long int x = epId << 41;
-    long int tbusMod = userId % tableN;
+    unsigned long x = seed_milTime << (64 - 41);
+    unsigned long  usrSrlMod = seed_userId % seed_serial;
 
-    x += tbusMod << (64 - 41 - 13);
-    x += (rowId % 1024);
+    x += usrSrlMod << (64 - 41 - 13);
+    x += (seed_rowId & 0x3ff);
 
-    return 0;
+    printf("GENERATED SEED: %lu\n", x);
+    
+    return x;
 }
 
-int main(void){
-    epoch_data();
-  
-    int x = db_connections();
-    if (x == CONNECTION_OK)
-    {
-       
-        printf("Connection OK. Gathering data.\n");
+/* Generate ID */ 
+unsigned long gen_id(void){
 
-     /* EpochID */
-        long int sndEpoch = epoch_data();
+    unsigned long milTime = epoch_data();
+    unsigned int serial = 1000;
+    unsigned int rowId = db_row_id();
+    unsigned int userId = 10000;
 
-     /* Table Name */
-        long int sndTblN = 10000; //set equal to DB query
+    unsigned long x = milTime << (64 - 41);
+    unsigned long  usrSrlMod = userId % serial;
 
-        int sndRow = 5; //set equal to DB query
-   
-        int sndUsrId = 30000; //set equal to DB query
+    x += usrSrlMod << (64 - 41 - 13);
+    x += (rowId & 0x3ff);
 
+    printf("GENERATED FLAKE: %lu\n", x);
     
-        generate_id(sndEpoch, sndTblN, sndRow, sndUsrId);
-   }
+    return x;
+}
 
-    return 0;
+int main(int argc, char *argv[]){
+
+    int conn_stat = db_connections();
+    int opt;
+
+    while((opt = getopt(argc, argv, "ash")) != -1) 
+        { 
+            switch(opt) 
+            { 
+                case 'a':
+                    db_transact_flake();
+                    break;
+                case 's':
+                    if (conn_stat == CONNECTION_OK){
+                        db_table_exist();
+                        db_init_seed();
+                    }
+                    break; 
+                case 'h': 
+                    printf("options available: %c\n", opt);
+                    printf("-s >> seed the database with the first entry, use this if you're just starting.\n");
+                    printf("-h >> help, shows the available commands.\n"); 
+                    break; 
+            } 
+        } 
+
+        return 0;
+
 }
